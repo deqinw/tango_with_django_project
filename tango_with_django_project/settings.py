@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # This is also different between what Django 1.9 has and Tango with Django.
 
 
 # Quick-start development settings - unsuitable for production
@@ -53,10 +53,13 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'tango_with_django_project.urls'
 
+# Dynamically set the path to templates directory.
+TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates') # Use os.path.join to ensure platform compatibility.
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_PATH], # starting from Django 1.8, this replaces TEMPLATES_DIR
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,5 +121,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+# TODO: According to Tango with Django, this is highly unsuitable for production deployment,
+# TODO: See https://docs.djangoproject.com/en/1.7/howto/static-files/deployment/
+STATIC_PATH = os.path.join(BASE_DIR, 'static')
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    STATIC_PATH,
+]
