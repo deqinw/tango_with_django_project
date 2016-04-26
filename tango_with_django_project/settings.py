@@ -59,7 +59,10 @@ TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates') # Use os.path.join to ensure
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_PATH], # starting from Django 1.8, this replaces TEMPLATES_DIR
+
+        # starting from Django 1.8, this replaces TEMPLATES_DIR
+        'DIRS': [TEMPLATE_PATH],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
