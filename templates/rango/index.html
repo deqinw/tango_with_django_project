@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{% load staticfiles %} <!-- inform Django’s template system that we will be using static media -->
+
     <head>
         <meta charset="UTF-8">
         <title>Rango</title>
+        {% comment %}<link rel="stylesheet" href="{% static "css/base.css" %}" /> <!-- CSS -->
+        <script src="{% static "js/jquery.js" %}"></script> <!-- JavaScript -->{% endcomment %}
     </head>
 
     <body>
         <h1>Rango says...</h1>
         hello world! <strong>{{ boldmessage }}</strong><br />
         <a href="/rango/about/">About</a><br />
+        <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> <!-- static tag will combine STATIC_URL with rango.jpg-->
     </body>
 
 </html>
