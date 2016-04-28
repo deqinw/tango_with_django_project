@@ -16,7 +16,7 @@
         {% if categories %}
             <ul>
                 {% for category in categories %}
-                    <li>{{ category.name }}</li>
+                    <li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -26,7 +26,16 @@
         <a href="/rango/about/">About</a><br />
 
         <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> <!-- static tag will combine STATIC_URL with rango.jpg-->
-
+        <br />
+        {% if pages %}
+            <ul>
+                {% for page in pages %}
+                    <li>{{ page.title }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no pages.</strong>
+        {% endif %}
     </body>
 
 </html>
