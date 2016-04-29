@@ -10,7 +10,7 @@ class CategoryForm(forms.ModelForm):
     # An inline class to provide additional information on the form.
     class Meta:
         # Provide an association between the ModelForm and model
-        model = Category
+        model = Category # Set the model attribute of the nested Meta class to the model you wish to use here.
         fields = ('name',)
 
 
