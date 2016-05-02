@@ -1,6 +1,6 @@
 from rango.models import Category, Page
 from django.shortcuts import render
-from rango.forms import CategoryForm
+from rango.forms import CategoryForm, PageForm
 
 def index(request):
     # Construct a dictionary to pass to the template engine as its context.
@@ -28,6 +28,7 @@ def category(request, category_name_slug):
         pages = Page.objects.filter(category=category)
         context_dict['pages'] = pages
         context_dict['category'] = category
+        context_dict['category_name_slug'] = category.slug
     except Category.DoesNotExist:
         # We get here if we didn't find the specified category
         # Don't do anything - the template displays the "no category" message.
@@ -55,3 +56,27 @@ def add_category(request):
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
     return render(request, 'rango/add_category.html', {'form': form})
+
+
+def add_page(request, slug):
+    try:
+        cat = Category.objects.get(slug=slug)
+    except Category.DoesNotExist:
+        cat = None
+
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        if form.is_valid():
+            if cat:
+                page = form.save(commit=False)
+                page.category = cat
+                page.view = 0
+                page.save()
+                return category(request, slug)
+        else:
+            print(form.errors)
+    else:
+        form = PageForm()
+
+    context_dict = {'form': form, 'category': cat, 'slug': slug}
+    return render(request, 'rango/add_page.html', context_dict)
