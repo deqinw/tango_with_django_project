@@ -32,7 +32,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # The additional attributes we wish to include
-    website = models.URLField(blank=True)
+    website = models.URLField(blank=True) # set blank to True means user doesn't have to provide this field
     picture = models.ImageField(upload_to="profile_images", blank=True)
 
     # Override the __unicode__() function to return something meaningful
