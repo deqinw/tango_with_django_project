@@ -1,6 +1,8 @@
 from rango.models import Category, Page
 from django.shortcuts import render
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
 
 
 def index(request):
@@ -113,3 +115,28 @@ def register(request):
         profile_form = UserProfileForm()
     return render(request, 'rango/register.html',
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        # Gather the username and password provided by the user. This information is obtained from the login form.
+        # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'], because the
+        # request.POST.get('<variable>') returns None, if the value does not exist, while the request.POST['<variable>']
+        # will raise key error exception
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/rango/')  # Send the user back to main page.
+            else:
+                return HttpResponse("Your Rango account is disabled.")
+        else:
+            print("Invalid login details: {0}, {1}".format(username, password))
+            return HttpResponse("Invalid login details provided")
+    # The request is not a HTTP POST, so display the login form.
+    # This scenario would most likely be a HTTP GET.
+    else:
+        return render(request, 'rango/login.html', {})
