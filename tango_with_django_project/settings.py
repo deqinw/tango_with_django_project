@@ -142,6 +142,8 @@ STATICFILES_DIRS = [
     STATIC_PATH,
 ]
 
-MEDIA_URL = '/media/' # the base URL from which all media files will be accessible on your development server
+MEDIA_URL = '/media/'  # the base URL from which all media files will be accessible on your development server
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = '/rango/login'  # If user is not logged in, redirect to this url

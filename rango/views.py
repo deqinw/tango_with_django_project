@@ -3,6 +3,7 @@ from django.shortcuts import render
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -141,3 +142,8 @@ def user_login(request):
     # This scenario would most likely be a HTTP GET.
     else:
         return render(request, 'rango/login.html', {})
+
+
+@login_required
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this view.")
