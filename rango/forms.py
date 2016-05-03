@@ -41,12 +41,14 @@ class PageForm(forms.ModelForm):
             url = 'http://' + url
             cleaned_data['url'] = url
 
-        return cleaned_data # must always end clean function with return cleaned_metadata
+        return cleaned_data  # must always end clean function with return cleaned_metadata
 
 
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput())  # Use PasswordInput() so that the password is not shown on the page
 
+    # Anything within a nested Meta class describes additional properties about the particular ModelForm class it
+    # belongs to.
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
