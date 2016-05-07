@@ -1,53 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
 {% load staticfiles %} <!-- inform Django’s template system that we will be using static media -->
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Rango</title>
-        {% comment %}<link rel="stylesheet" href="{% static "css/base.css" %}" /> <!-- CSS -->
-        <script src="{% static "js/jquery.js" %}"></script> <!-- JavaScript -->{% endcomment %}
-    </head>
+{% block title %}
 
-    <body>
-        {% if user.is_authenticated %}
-            <h1>Rango says... hello {{ user.username }}</h1>
-        {% else %}
-            <h1>Rango says... hello world!</h1>
-        {% endif %}
+    {% if user.is_authenticated %}
+        <h1>Rango says... hello {{ user.username }}</h1>
+    {% else %}
+        <h1>Rango says... hello world!</h1>
+    {% endif %}
 
-        {% if categories %}
-            <ul>
-                {% for category in categories %}
-                    <li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no categorys represent.</strong>
-        {% endif %}
+{% endblock %}
 
-        <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> <!-- static tag will combine STATIC_URL with rango.jpg-->
-        <br />
-        {% if pages %}
-            <ul>
-                {% for page in pages %}
-                    <li>{{ page.title }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no pages.</strong>
-        {% endif %}
+{% block body_block %}
 
-        {% if user.is_authenticated %}
-            <a href="/rango/restricted/">Restricted page</a><br />
-            <a href="/rango/add_category/">Add a new category</a><br />
-            <a href="/rango/logout/">Logout</a><br />
-        {% else %}
-            <a href="/rango/register/">Register here</a><br />
-            <a href="/rango/login/">Login</a><br />
-        {% endif %}
-        <a href="/rango/about/">About</a><br />
-    </body>
+    {% if categories %}
+        <ul>
+            {% for category in categories %}
+                <!-- pass in url parameter like this -->
+                <li><a href="{% url 'category'  category.slug %}">{{ category.name }}</a> </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no categorys represent.</strong>
+    {% endif %}
 
-</html>
+    <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> <!-- static tag will combine STATIC_URL with rango.jpg-->
+
+    <br />
+
+    <h2>Top 5 pages on Rango</h2>
+    {% if pages %}
+        <ul>
+            {% for page in pages %}
+                <li>{{ page.title }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no pages.</strong>
+    {% endif %}
+
+{% endblock %}

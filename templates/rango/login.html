@@ -1,22 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Rango</title>
-    </head>
+{% load staticfiles %}
 
-    <body>
-        <h1>Login to Rango</h1>
+{% block body_block %}
+    <h1>Login to Rango</h1>
 
-        <form id="login_form" method="post" action="{% url 'login' %}">
-            {% csrf_token %}
-            <!-- Ensure that you match up the input name attributes to those that you specified in the user_login() view -->
-            Username: <input type="text" name="username" value="" size="50" /><br />
-            Password: <input type="password" name="password" value="" size="50" /><br />
+    <form id="login_form" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <!-- Ensure that you match up the input name attributes to those that you specified in the user_login() view -->
+        Username: <input type="text" name="username" value="" size="50" /><br />
+        Password: <input type="password" name="password" value="" size="50" /><br />
 
-            <input type="submit" value="submit" />
-        </form>
-    </body>
-
-</html>
+        <input type="submit" value="submit" />
+    </form>
+{% endblock %}

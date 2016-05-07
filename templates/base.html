@@ -4,9 +4,12 @@
     <head>
         <meta charset="UTF-8">
         <title>Rango - {% block title %}How to Tango with Django!{% endblock %}</title>
+        {% comment %}<link rel="stylesheet" href="{% static "css/base.css" %}" /> <!-- CSS -->
+            <script src="{% static "js/jquery.js" %}"></script> <!-- JavaScript -->{% endcomment %}
     </head>
 
     <body>
+        <h1>Tango page!</h1>
         <div>
             <!-- Page specific content goes here -->
             {% block body_block %}
@@ -39,6 +42,9 @@
 
                 <li>
                     <a href="{% url 'about' %}">About</a>
+                </li>
+                <li>
+                    <a href="{% url 'index' %}">Home</a>
                 </li>
             </ul>
         </div>
