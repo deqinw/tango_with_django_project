@@ -9,7 +9,7 @@
     <body>
         <h1>Login to Rango</h1>
 
-        <form id="login_form" method="post" action="/rango/login/">
+        <form id="login_form" method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <!-- Ensure that you match up the input name attributes to those that you specified in the user_login() view -->
             Username: <input type="text" name="username" value="" size="50" /><br />
