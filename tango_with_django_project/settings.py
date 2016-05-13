@@ -29,6 +29,10 @@ ALLOWED_HOSTS = []
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
+# Specify the age of which a cookie can live to. This value should be an integer, representing the number of seconds the
+# cookie can live for
+SESSION_COOKIE_AGE = 86400
+
 # Application definition
 
 INSTALLED_APPS = [

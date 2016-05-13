@@ -3,6 +3,13 @@
 {% load staticfiles %}
 
 {% block body_block %}
-    <p>Currently an empty page.</p>
+    <p>{{ about_message }}</p>
+
+    <p>
+        {% if count %}
+            View: {{ count }}
+        {% endif %}
+    </p>
+
     <img src="{% static "images/rango.jpg" %}" alt="Rango picture" />
 {% endblock %}
