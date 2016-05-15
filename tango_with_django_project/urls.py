@@ -20,6 +20,7 @@ from django.conf import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^rango/', include('rango.urls')), # import the url patterns defined in Rango app's urls.py
+    url(r'^accounts/', include('registration.backends.simple.urls'))
 ]
 
 if settings.DEBUG:
