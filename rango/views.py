@@ -1,8 +1,7 @@
 from rango.models import Category, Page
 from django.shortcuts import render
-from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
+from rango.forms import CategoryForm, PageForm
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
@@ -114,70 +113,6 @@ def add_page(request, slug):
     return render(request, 'rango/add_page.html', context_dict)
 
 
-def register(request):
-    registered = False
-
-    if request.method == 'POST':
-        # Attempt to grab information from the raw form information.
-        # Note that we make use of both UserForm and UserProfileForm.
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            # Save the user's form data to database
-            user = user_form.save()
-            user.set_password(user.password)
-            user.save()
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-            profile.save()
-            registered = True
-        else:
-            print(user_form.errors, profile_form.errors)
-    # Not a HTTP POST, so we render our form using two ModelForm instances.
-    # These forms will be blank, ready for user input.
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-    return render(request, 'rango/register.html',
-                  {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
-
-
-def user_login(request):
-    if request.method == 'POST':
-        # Gather the username and password provided by the user. This information is obtained from the login form.
-        # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'], because the
-        # request.POST.get('<variable>') returns None, if the value does not exist, while the request.POST['<variable>']
-        # will raise key error exception
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        user = authenticate(username=username, password=password)
-
-        if user:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect('/rango/')  # Send the user back to main page.
-            else:
-                return HttpResponse("Your Rango account is disabled.")
-        else:
-            print("Invalid login details: {0}, {1}".format(username, password))
-            return HttpResponse("Invalid login details provided")
-    # The request is not a HTTP POST, so display the login form.
-    # This scenario would most likely be a HTTP GET.
-    else:
-        return render(request, 'rango/login.html', {})
-
-
 @login_required
 def restricted(request):
     return HttpResponse("Since you're logged in, you can see this view.")
-
-
-@login_required
-def user_logout(request):
-    logout(request)
-    return HttpResponseRedirect('/rango/')
