@@ -9,7 +9,7 @@ from datetime import datetime
 def index(request):
     # Construct a dictionary to pass to the template engine as its context.
     # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-    category_list = Category.objects.order_by('-likes')[:5]
+    category_list = Category.objects.order_by('-likes')
     top_five_pages = Page.objects.order_by('-views')[:5]  # '-' means sort in descending order
     context_dict = {'categories': category_list, 'pages':top_five_pages}
 
