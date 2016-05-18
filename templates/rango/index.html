@@ -2,44 +2,60 @@
 
 {% load staticfiles %} <!-- inform Django’s template system that we will be using static media -->
 
-{% block title %}
-
-    {% if user.is_authenticated %}
-        <h1>Rango says... hello {{ user.username }}</h1>
-    {% else %}
-        <h1>Rango says... hello world!</h1>
-    {% endif %}
-
-{% endblock %}
+{% block title %}Index{% endblock %}
 
 {% block body_block %}
+    <div class="page-header">
+        {% if user.is_authenticated %}
+            <h1>Rango says... hello {{ user.username }}, this is the index page</h1>
+        {% else %}
+            <h1>Rango says... hello world! This is the index page</h1>
+        {% endif %}
+    </div>
 
-    {% if categories %}
-        <ul>
-            {% for category in categories %}
-                <!-- pass in url parameter like this -->
-                <li><a href="{% url 'category'  category.slug %}">{{ category.name }}</a> </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <strong>There are no categorys represent.</strong>
-    {% endif %}
+    <div class="row placeholders">
+
+        <div class="col-xs-12 col-sm-6 placeholder">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Categories</h4>
+                </div>
+            </div>
+
+            {% if categories %}
+                <ul class="list-group">
+                    {% for category in categories %}
+                        <!-- pass in url parameter like this -->
+                        <li class="list-group-item"><a href="{% url 'category'  category.slug %}">{{ category.name }}</a> </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <strong>There are no categorys represent.</strong>
+            {% endif %}
+        </div>
+
+        <div class="col-xs-12 col-sm-6 placeholder">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Pages</h4>
+                </div>
+            </div>
+
+            {% if pages %}
+                <ul class="list-group">
+                    {% for page in pages %}
+                        <li class="list-group-item">{{ page.title }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <strong>There are no pages.</strong>
+            {% endif %}
+        </div>
+
+    </div>
 
     <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> <!-- static tag will combine STATIC_URL with rango.jpg-->
-
     <br />
-
-    <h2>Top 5 pages on Rango</h2>
-    {% if pages %}
-        <ul>
-            {% for page in pages %}
-                <li>{{ page.title }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <strong>There are no pages.</strong>
-    {% endif %}
-
     <p> visits: {{ visits }}</p>
 
 {% endblock %}
